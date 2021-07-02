@@ -2,9 +2,7 @@ package com.example.madcamp1;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -15,13 +13,19 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,11 +47,16 @@ public class ContactFrag extends Fragment {
     RecyclerView recyclerView;
     List<Contacts> contactsList = new ArrayList<>();
     ContactsAdapter adapter;
+    ContactsAdapter.ContactsViewHolder cvh;
     private View view;
+
 
     @Nullable
     public View onCreateView(@NotNull LayoutInflater inflater, @NotNull ViewGroup container, @NotNull Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.contact_frag, container, false);
+
+        ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
+        ab.setTitle("Contacts");
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycle1);
         adapter = new ContactsAdapter(getActivity(), contactsList);
@@ -75,6 +84,7 @@ public class ContactFrag extends Fragment {
                         token.continuePermissionRequest();
                     }
                 }).check();
+        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -91,4 +101,42 @@ public class ContactFrag extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_contacts, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.action_add){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getLayoutInflater();
+            builder.setTitle("새 연락처 추가");
+            View view = inflater.inflate(R.layout.add_new, null);
+            builder.setView(view);
+            builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    EditText eName = (EditText) view.findViewById(R.id.new_name);
+                    EditText ePhone= (EditText) view.findViewById(R.id.new_phone);
+                    String new_eName = eName.getText().toString();
+                    String new_ePhone = ePhone.getText().toString();
+                    Contacts contacts = new Contacts(new_eName,new_ePhone, null);
+                    contactsList.add(contacts);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity().getApplicationContext(), "추가되었습니다.", Toast.LENGTH_LONG). show();
+                }
+            });
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다", Toast.LENGTH_LONG).show();
+                }
+            });
+
+           builder.create().show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+

@@ -2,14 +2,18 @@ package com.example.madcamp1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -24,7 +28,6 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
     private FragmentManager fm;
     private FragmentTransaction ft;
-    private HomeFrag hf;
     private ContactFrag cf;
     private PhotoFrag pf;
     private ExtraFrag ef;
@@ -43,9 +46,6 @@ public class MainActivity extends AppCompatActivity
             {
                 switch (menuItem.getItemId())
                 {
-                    case R.id.home:
-                        setFrag(0);
-                        break;
                     case R.id.contacts:
                         setFrag(1);
                         break;
@@ -60,12 +60,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        hf = new HomeFrag();
         cf = new ContactFrag();
         pf = new PhotoFrag();
         ef = new ExtraFrag();
 
-        setFrag(0); // 첫 프래그먼트 화면 지정
+        setFrag(1); // 첫 프래그먼트 화면 지정
     }
 
     // 프레그먼트 교체
@@ -75,11 +74,6 @@ public class MainActivity extends AppCompatActivity
         ft= fm.beginTransaction();
         switch (n)
         {
-            case 0:
-                ft.replace(R.id.Main_Frame,hf);
-                ft.commit();
-                break;
-
             case 1:
                 ft.replace(R.id.Main_Frame,cf);
                 ft.commit();
