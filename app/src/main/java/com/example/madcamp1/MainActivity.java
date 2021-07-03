@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     private FragmentTransaction ft;
     private ContactFrag cf;
     private PhotoFrag pf;
-    private ExtraFrag ef;
+    private MapFrag mf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
                     case R.id.photos:
                         setFrag(2);
                         break;
-                    case R.id.extra:
+                    case R.id.maps:
                         setFrag(3);
                         break;
                 }
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         cf = new ContactFrag();
         pf = new PhotoFrag();
-        ef = new ExtraFrag();
+        mf = new MapFrag();
 
         setFrag(1); // 첫 프래그먼트 화면 지정
     }
@@ -80,14 +80,12 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case 2:
-                cf.onDestroy();
                 ft.replace(R.id.Main_Frame,pf);
                 ft.commit();
                 break;
 
             case 3:
-                cf.onDestroy();
-                ft.replace(R.id.Main_Frame,ef);
+                ft.replace(R.id.Main_Frame,mf);
                 ft.commit();
                 break;
         }
