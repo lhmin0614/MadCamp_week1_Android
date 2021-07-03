@@ -1,30 +1,93 @@
 package com.example.madcamp1;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.GestureDetector;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+
+@SuppressLint("HandlerLeak")
+public class MainActivity extends AppCompatActivity
+{
+    private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
+    private FragmentManager fm;
+    private FragmentTransaction ft;
+    private ContactFrag cf;
+    private PhotoFrag pf;
+    private MapFrag mf;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+
+        bottomNavigationView = findViewById(R.id.bottomNavi);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.contacts:
+                        setFrag(1);
+                        break;
+                    case R.id.photos:
+                        setFrag(2);
+                        break;
+                    case R.id.maps:
+                        setFrag(3);
+                        break;
+                }
+                return true;
+            }
+        });
+
+        cf = new ContactFrag();
+        pf = new PhotoFrag();
+        mf = new MapFrag();
+
+        setFrag(1); // 첫 프래그먼트 화면 지정
     }
 
+    // 프레그먼트 교체
+    private void setFrag(int n)
+    {
+        fm = getSupportFragmentManager();
+        ft= fm.beginTransaction();
+        switch (n)
+        {
+            case 1:
+                ft.replace(R.id.Main_Frame,cf);
+                ft.commit();
+                break;
+
+            case 2:
+                ft.replace(R.id.Main_Frame,pf);
+                ft.commit();
+                break;
+
+            case 3:
+                ft.replace(R.id.Main_Frame,mf);
+                ft.commit();
+                break;
+        }
+    }
 }
