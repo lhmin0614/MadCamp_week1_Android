@@ -40,6 +40,7 @@ public class MapFrag extends Fragment {
     private double lng = 127.365293;
     private ClusterManager<MyItem> clusterManager;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
