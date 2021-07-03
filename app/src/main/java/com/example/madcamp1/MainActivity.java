@@ -80,11 +80,13 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case 2:
+                cf.onDestroy();
                 ft.replace(R.id.Main_Frame,pf);
                 ft.commit();
                 break;
 
             case 3:
+                cf.onDestroy();
                 ft.replace(R.id.Main_Frame,ef);
                 ft.commit();
                 break;

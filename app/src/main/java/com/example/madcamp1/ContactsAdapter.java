@@ -3,6 +3,10 @@ package com.example.madcamp1;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -44,7 +49,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         if(contacts.getPhoto() != null){
             Picasso.get().load(contacts.getPhoto()).into(holder.img_contact);
         } else{
-            holder.img_contact.setImageResource(R.mipmap.ic_launcher);
+            holder.img_contact.setImageResource(R.drawable.cute_profile);
         }
     }
 
@@ -55,6 +60,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public class ContactsViewHolder extends RecyclerView.ViewHolder{
         TextView name_contact, phone_contact;
         CircleImageView img_contact;
+        ContactFrag contactFrag;
 
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,15 +75,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     if (pos != RecyclerView.NO_POSITION){
                         //텍스트 뷰에서 스트링 받아오기
                         String name_str = name_contact.getText().toString();
+                        String phone_str = phone_contact.getText().toString();
                         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                        builder.setTitle("Delete");
-                        builder.setMessage("정말 "+ name_str +"를 삭제하시겠습니까?");
+                        builder.setTitle("💜전화💜");
+                        builder.setMessage("정말 "+ name_str +"에게 전화를 걸까요??");
                         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                contactsList.remove(contactsList.get(pos));
-                                notifyDataSetChanged();
-                                Toast.makeText(mContext.getApplicationContext(), "삭제되었습니다", Toast.LENGTH_LONG). show();
+                                String tel = "tel:" + phone_str;
+                                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(tel)));
+                                //바로 전화하게 하고 싶으면 ACTION_CALL로 바꾸기
                             }
                         });
                         builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
