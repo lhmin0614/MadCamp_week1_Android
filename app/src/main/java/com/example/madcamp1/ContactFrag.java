@@ -80,7 +80,7 @@ public class ContactFrag extends Fragment {
         Log.e("Frag", "MainFragment");
 
         Dexter.withActivity(getActivity())
-                .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE)
+                .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .withListener(new MultiplePermissionsListener(){
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {

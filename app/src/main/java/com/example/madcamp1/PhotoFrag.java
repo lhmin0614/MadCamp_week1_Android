@@ -68,12 +68,6 @@ public class PhotoFrag extends Fragment {
         ab.setTitle("Photos");
 
         setHasOptionsMenu(true);
-        //permission checkbox
-
-
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-        }
 
         GridView gallery = view.findViewById(R.id.galleryGridView);
         gallery.setAdapter(new ImageAdapter(getActivity()));
