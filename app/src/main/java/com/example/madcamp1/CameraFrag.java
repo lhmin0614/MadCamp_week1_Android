@@ -73,6 +73,7 @@ public class CameraFrag extends Fragment {
         return view;
     }
 
+
     private  Camera.PictureCallback takePicture = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera){
             Log.i(TAG, "shoot button pressed");
@@ -95,6 +96,7 @@ public class CameraFrag extends Fragment {
     };
 
     private SurfaceHolder.Callback surfaceListener = new SurfaceHolder.Callback(){
+
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
             Camera.Parameters parameters = camera.getParameters();
@@ -111,6 +113,12 @@ public class CameraFrag extends Fragment {
             Log.i(TAG, "camera start");
             try{
                 camera.setPreviewDisplay(holder);
+
+                //해당도 setting
+                Camera.Parameters parameters = camera.getParameters();
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+
+                camera.setParameters(parameters);
 
             }
             catch(Exception e){
