@@ -22,25 +22,30 @@
   <img src="https://user-images.githubusercontent.com/63537847/124422815-e9157180-dd9e-11eb-9269-173ca6f23cb2.png" width="200" height="400"> <img src="https://user-images.githubusercontent.com/63537847/124422851-f6caf700-dd9e-11eb-9bfc-c1af7e72a00b.png" width="200" height="400">
   - Recycler View로 되어있는 layout을 클릭하면 전화가 걸리는 방식으로 프로그램 구성함
   - 하나의 view를 클릭하게 되면 전화 여부를 물어보는 alert dialog뜸 
-  - "예"를 선택하게 되면 Intent를 사용해서 바로 전화 걸 수 있는 페이지로 넘어감 
+  - " 예"를 선택하게 되면 Intent를 사용해서 바로 전화 걸 수 있는 페이지로 넘어감 
 
 ## Tab2 : 사진 앨범 
 > 사진 앨범 Tab은 Android 기기의 local storage에 존재하는 모든 사진파일을 보여주며, 촬영기능을 통해 새로운 사진을 local storage에 추가할 수 있는 화면입니다. 
 - ### 갤러리 페이지
-  [사진]
+  <img src = "https://user-images.githubusercontent.com/68638211/124426397-f3d30500-dda4-11eb-8f4a-08cfefd7826b.jpg" width = "200" height = "400" >
+  
   - Android MediaStore를 사용하여 앱에서 local storage의 파일을 사용함
   - 사진 파일을 읽어오기 위해 사용자에게 READ_EXTERNAL_STORAGE 권한을 요청함
   - local storage에 존재하는 모든 이미지 파일의 uri주소를 반환하는 getAllShownImagesPath 함수를 구현함 
   - uri주소로 접근한 이미지들을 GridView에 추가하여 화면을 구성함
 - ### 상세 사진 페이지
+  <img src = "https://user-images.githubusercontent.com/68638211/124426143-963eb880-dda4-11eb-95ac-83c1ff9b278f.jpg" width="200" height="400">
+  
   - 갤러리 페이지에서 각각의 사진을 누르면 상세 사진 페이지로 이동할 수 있음
-  - 사진을 눌렀을 때 사진의 uri 주소를 
+  - 사진을 눌렀을 때 사진의 uri 주소를 bundle 형태로 새로운 fragment로 전달함
+  - 상세 사진 페이지에서 사진을 다시 한 번 누르면 갤러리 페이지로 돌아갈 수 있음 
 - ### 촬영 페이지
-  [사진]
+  <img src = "https://user-images.githubusercontent.com/68638211/124426654-4f04f780-dda5-11eb-90e1-0b45466ff8db.jpg" width="200" height="400"><img src = "https://user-images.githubusercontent.com/68638211/124426657-50cebb00-dda5-11eb-98fa-5112a9d914ad.jpg" width="200" height="400"><img src = "https://user-images.githubusercontent.com/68638211/124426639-49a7ad00-dda5-11eb-8ef8-c52d83ddf4d7.jpg" width="200" height="400">
   - 갤러리 페이지에서 우측 상단 카메라 아이콘을 누르면 촬영 페이지로 이동할 수 있음
   - Android Camera를 사용하여 앱에서 Android 디바이스의 카메라에 접근하여 사용함
   - SurfaceView 객체를 사용하여 카메라 preview화면을 간접적으로 보여줌
   - shoot 버튼을 클릭했을 때 camera.takePicture 메소드를 호출하여 사진을 촬영함
   - 촬영된 사진을 Bitmap 데이터로 변환하여 화면에 표시하고, 새로운 Uri 주소를 할당하여 local storage에 저장함
+  - 촬영 페이지에서 다시 갤러리 페이지로 돌아갔을 때 촬영한 사진을 확인할 수 있음
 
 ## Tab3 : 구글 맵스 
