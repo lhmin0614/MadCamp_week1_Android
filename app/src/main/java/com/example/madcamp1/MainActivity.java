@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity
     private ContactFrag cf;
     private PhotoFrag pf;
     private MapFrag mf;
+    public FullImageFrag ff;
+    private CameraFrag cm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,12 +66,14 @@ public class MainActivity extends AppCompatActivity
         cf = new ContactFrag();
         pf = new PhotoFrag();
         mf = new MapFrag();
+        ff = new FullImageFrag();
+        cm = new CameraFrag();
 
         setFrag(1); // 첫 프래그먼트 화면 지정
     }
 
     // 프레그먼트 교체
-    private void setFrag(int n)
+    public void setFrag(int n)
     {
         fm = getSupportFragmentManager();
         ft= fm.beginTransaction();
@@ -88,6 +93,17 @@ public class MainActivity extends AppCompatActivity
                 ft.replace(R.id.Main_Frame,mf);
                 ft.commit();
                 break;
+
+            case 4:
+                ft.replace(R.id.Main_Frame, ff);
+                ft.commit();
+                break;
+            case 5:
+
+                ft.replace(R.id.Main_Frame, cm);
+                ft.commit();
+                break;
+
         }
     }
 }

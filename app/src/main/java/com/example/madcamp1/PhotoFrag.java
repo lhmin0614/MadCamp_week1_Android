@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -75,16 +76,23 @@ public class PhotoFrag extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (null != images && !images.isEmpty()){
-                    // Sending position to FullScreenActivity
-//                    Intent intent = new Intent(getApplicationContext(), FullImageActivity.class);
-//                    intent.putStringArrayListExtra("ArrayList", images);
-//                    intent.putExtra("position", position);
-//                    intent.putExtra("Uri", images.get(position));
-//                    startActivity(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Uri", images.get(position));
+                    ((MainActivity)getActivity()).ff.setArguments(bundle);
+                    ((MainActivity)getActivity()).setFrag(4);
+                    FullImageFrag fragment1 = new FullImageFrag();
                 }
             }
         });
 
+        Button cameraButton = view.findViewById(R.id.cameraButton);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).setFrag(5);
+                }
+            }
+        );
         return view;
     }
     private class ImageAdapter extends BaseAdapter {
