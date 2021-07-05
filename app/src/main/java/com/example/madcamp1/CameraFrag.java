@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -50,7 +53,7 @@ public class CameraFrag extends Fragment {
         surfaceHolder.addCallback(surfaceListener);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-
+        setHasOptionsMenu(true);
 
         Button shootButton = view.findViewById(R.id.button3);
         shootButton.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +66,18 @@ public class CameraFrag extends Fragment {
             }
         });
         return view;
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_back, menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.back){
+            ((MainActivity)getActivity()).setFrag(2);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

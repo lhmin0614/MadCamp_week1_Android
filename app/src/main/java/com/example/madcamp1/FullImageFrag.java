@@ -3,6 +3,9 @@ package com.example.madcamp1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +28,8 @@ public class FullImageFrag extends Fragment {
         view = inflater.inflate(R.layout.full_image,container,false);
         ImageView iv = view.findViewById(R.id.full_image_view);
 
+        setHasOptionsMenu(true);
+
         // get uri data and load
         Bundle bundle = getArguments();
         String uri = bundle.getString("Uri");
@@ -38,5 +43,17 @@ public class FullImageFrag extends Fragment {
             });
 
         return view;
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_back, menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.back){
+            ((MainActivity)getActivity()).setFrag(2);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
