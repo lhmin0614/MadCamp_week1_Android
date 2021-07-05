@@ -3,6 +3,9 @@ package com.example.madcamp1;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -63,6 +66,8 @@ public class PhotoFrag extends Fragment {
         mContext = (MainActivity)getActivity();
         ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
         ab.setTitle("Photos");
+
+        setHasOptionsMenu(true);
         //permission checkbox
 
 
@@ -85,14 +90,6 @@ public class PhotoFrag extends Fragment {
             }
         });
 
-        Button cameraButton = view.findViewById(R.id.cameraButton);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).setFrag(5);
-                }
-            }
-        );
         return view;
     }
     private class ImageAdapter extends BaseAdapter {
@@ -170,5 +167,16 @@ public class PhotoFrag extends Fragment {
             Log.i(listOfAllImages.toString(), "listOfAllImages");
             return listOfAllImages;
         }
+    }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_camera, menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.action_camera){
+            ((MainActivity)getActivity()).setFrag(5);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -93,22 +93,6 @@ public class ContactFrag extends Fragment {
                         //이전 권한 여부를 거부한 권한이 있으면 실행되는 메소드
 
                     }
-
-//                    @Override
-//                    public void onPermissionsGranted(PermissionGrantedResponse response) {
-//                        if (response.getPermissionName().equals(Manifest.permission.READ_CONTACTS))
-//                            getContacts();
-//                    }
-//
-//                    @Override
-//                    public void onPermissionsDenied(PermissionDeniedResponse response) {
-//                        Toast.makeText(getActivity(), "Permission should be granted!", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onPermissionsRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-//                        token.continuePermissionRequest();
-//                    }
                 }).check();
         setHasOptionsMenu(true);
         return rootView;
