@@ -47,6 +47,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ContactFrag extends Fragment {
@@ -110,6 +111,7 @@ public class ContactFrag extends Fragment {
             contactsList.add(contacts);
             adapter.notifyDataSetChanged();
         }
+        Collections.sort(contactsList);
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){

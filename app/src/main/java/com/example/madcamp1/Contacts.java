@@ -1,6 +1,6 @@
 package com.example.madcamp1;
 
-public class Contacts {
+public class Contacts implements Comparable<Contacts>{
     private String name;
     private String photo;
     private String phone_num;
@@ -9,6 +9,16 @@ public class Contacts {
         this.name = name;
         this.photo = photo;
         this.phone_num = phone_num;
+    }
+    @Override
+    public int compareTo (Contacts c) {
+        int compareResult = this.name.compareTo(c.name);
+        if (compareResult < 0) {
+            return -1;
+        } else if (compareResult > 0) {
+            return 1;
+        }
+        return 0;
     }
 
     public String getName() { return name; }
