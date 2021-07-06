@@ -1,4 +1,8 @@
-# MadCamp_week1
+# MadCamp_week1 (앱 이름)
+
+> 이혜민, 강수아, 정이든
+
+
 |Contacts|Photos|Google Map|
 |--|--|--|
 |<img src="https://user-images.githubusercontent.com/63537847/124421905-5f18d900-dd9d-11eb-839c-84f6ce84f1ce.png" width="200" height="400">|<img src="https://user-images.githubusercontent.com/63537847/124422205-eb2b0080-dd9d-11eb-8886-4bbd4c79f223.png" width="200" height="400">|cell3|
