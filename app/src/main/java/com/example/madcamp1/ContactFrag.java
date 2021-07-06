@@ -18,6 +18,7 @@ import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -29,6 +30,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -65,6 +67,7 @@ public class ContactFrag<editText> extends Fragment{
     EditText editText;
     Spinner spinner;
     String searchOption;
+    Button btnClear;
     ContactsAdapter.ContactsViewHolder cvh;
     private View view;
 
@@ -90,6 +93,7 @@ public class ContactFrag<editText> extends Fragment{
         spinner = (Spinner) rootView.findViewById(R.id.spinner);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        btnClear = (Button) rootView.findViewById(R.id.clearable_button_clear);
 
         Log.e("Frag", "MainFragment");
 
@@ -137,12 +141,16 @@ public class ContactFrag<editText> extends Fragment{
             @Override //during text change
             public void onTextChanged(CharSequence s, int start, int before, int count){
                 String text = editText.getText().toString().toLowerCase(Locale.getDefault());
-                if( searchOption.equals( "name" ) ){
+                if( searchOption.equals("name")){
                     text = "0".concat(text);
                 }
                 else{
                     text = "1".concat(text);
                 }
+                if(text.length()>1)
+                    btnClear.setVisibility(RelativeLayout.VISIBLE);
+                else
+                    btnClear.setVisibility(RelativeLayout.INVISIBLE);
                 adapter.getFilter().filter(text);
                 Log.i("onTextChanged", text);
             }
@@ -152,9 +160,20 @@ public class ContactFrag<editText> extends Fragment{
         };
         editText.addTextChangedListener(textwatcher);
 
-
+        // text clear button setting
+        btnClear.setVisibility(RelativeLayout.INVISIBLE);
+        clearText();
 
         return rootView;
+    }
+
+    private void clearText() {
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText.setText("");
+            }
+        });
     }
 
     private void getContacts() {
