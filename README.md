@@ -5,7 +5,7 @@
 
 |Contacts|Photos|Google Map|
 |--|--|--|
-|<img src="https://user-images.githubusercontent.com/63537847/124421905-5f18d900-dd9d-11eb-839c-84f6ce84f1ce.png" width="200" height="400">|<img src="https://user-images.githubusercontent.com/63537847/124422205-eb2b0080-dd9d-11eb-8886-4bbd4c79f223.png" width="200" height="400">|cell3|
+|<img src="https://user-images.githubusercontent.com/63537847/124421905-5f18d900-dd9d-11eb-839c-84f6ce84f1ce.png" width="200" height="400">|<img src="https://user-images.githubusercontent.com/63537847/124422205-eb2b0080-dd9d-11eb-8886-4bbd4c79f223.png" width="200" height="400">|<img src = "https://user-images.githubusercontent.com/58783348/124560386-b5f2e100-de77-11eb-9da4-ddfbaab408c8.jpeg" width = "200" height = "400">|
 
 ## Tab1 : 연락처
 > 연락처를 저장하고 바로 전화할 수 있습니다. 로컬의 연락처와 연동되어 앱에서 저장하면 로컬 연락처 저장소에도 저장됩니다. 보이는 연락처를 누르면 바로 전화를 걸 수 있습니다. 
@@ -59,4 +59,60 @@
   - 촬영된 사진을 Bitmap 데이터로 변환하여 화면에 표시하고, 새로운 Uri 주소를 할당하여 local storage에 저장함
   - 촬영 페이지에서 다시 갤러리 페이지로 돌아갔을 때 촬영한 사진을 확인할 수 있음
 
-## Tab3 : 구글 맵스 
+## Tab3 : Google map
+
+> Google map tab은 나의 현 위치와 우리 분반 친구들의 위치를 맵의 마커로서 확인할 수 있는 탭입니다. 또한 클러스터링 API를 사용하여 zoom level에 따라 '마커' <--> '군집' 변경되는 지도입니다.
+
+<br />
+
+- ### 기본 화면
+  <img src = "https://user-images.githubusercontent.com/58783348/124560386-b5f2e100-de77-11eb-9da4-ddfbaab408c8.jpeg" width = "200" height = "400">
+  <img src = "https://user-images.githubusercontent.com/58783348/124560273-965bb880-de77-11eb-8c58-d6bce030875f.jpeg" width="200" height="400">
+  <img src = "https://user-images.githubusercontent.com/58783348/124560263-9360c800-de77-11eb-92e0-60838e6d50e9.jpeg" width="200" height="400">
+
+
+
+  - 정확한 위치 적용을 위해 ACCESS_FINE_LOCATION 퍼미션을 사용자에게 요청한다.
+  - 사용자가 위치 허용을 하면 ```mGoogleMap.setMyLocationEnabled(true)```를 통해 ```Floating button```이 생성되고. 버튼을 클릭하면 기기의 위도, 경도값을 구글 서버에 보낸다. 그리고 구글로부터 현재 위치의 이미지 url을 받아 맵에 표시된다.
+  - 현재 위치가 변경될 때 ```onLocationChanged``` 콜백이 fire되고 사용자의 새로운 위치가 마커로서 표시된다.
+  - 맵 타입 변경 버튼을 누르면 구글 맵의 이미지 타입이 변경된다. 간단한 버튼 리스너 코드는 아래와 같다.
+
+  ```java
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //Initialize view
+        View rootView = inflater.inflate(R.layout.map_frag, container, false);
+
+        Button map_type_btn = rootView.findViewById(R.id.map_type_btn);
+        map_type_btn.setOnClickListener(new Button.OnClickListener() { // 버튼 리스너 등록.
+            @Override
+            public void onClick(View view) {
+                if(mGoogleMap.getMapType() == 1) {
+                    mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); // 위성에서 찍은 이미지로 맵 타입 설정.
+                }else {
+                    mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL); // 디폴트 맵 이미지 타입
+                }
+            }
+        })
+  ```
+
+
+<br />
+
+- ### Zoom 시에 화면
+  <img src = "https://user-images.githubusercontent.com/58783348/124560199-83e17f00-de77-11eb-93c2-5b406d7880ba.jpeg" width="200" height="400">
+
+  - 분반 친구들이 Cluster item의 마커로서 지도에 표시됨.
+  - 친구들의 랜덤한 위치를 리턴하는 간단한 함수를 통해 마커를 표현.
+  - 마커를 클릭하면 친구들의 이름이 Toast로서 표시됨.
+  - 마커를 클릭하면 해당 마커로 카메라가 천천히 이동함.
+
+<br />
+
+- ### Pinch 시에 화면
+  <img src = "https://user-images.githubusercontent.com/58783348/124560211-85ab4280-de77-11eb-8855-e30bc20a61d0.jpeg" width="200" height="400">
+  <img src = "https://user-images.githubusercontent.com/58783348/124560224-880d9c80-de77-11eb-86be-f6759eff74cb.jpeg" width="200" height="400">
+
+  - 특정 반경에 위치한 마커들의 무게중심에 하나의 Cluster(군집)으로 표시됨.
+
+
