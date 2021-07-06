@@ -1,4 +1,4 @@
-# MadCamp_week1 (앱 이름)
+# <img src="https://user-images.githubusercontent.com/63537847/124558840-fc474080-de75-11eb-938f-1a51560b1ae3.png" width="50" height="50"> 정강이
 
 > 이혜민, 강수아, 정이든
 
