@@ -24,6 +24,13 @@
   - 하나의 view를 클릭하게 되면 전화 여부를 물어보는 alert dialog뜸 
   - " 예"를 선택하게 되면 Intent를 사용해서 바로 전화 걸 수 있는 페이지로 넘어감 
 
+- ### 연락처 검색하기 
+  
+  <img src="https://user-images.githubusercontent.com/63537847/124543740-c9468200-de60-11eb-8610-0b3a69fceaff.png" width="200" height="400"> <img src="https://user-images.githubusercontent.com/63537847/124543744-cc417280-de60-11eb-8ddb-484ca99c4fbc.png" width="200" height="400"> <img src="https://user-images.githubusercontent.com/63537847/124543753-cf3c6300-de60-11eb-9bca-bd99abce04df.png" width="200" height="400">
+  - EditText로 검색할 이름 또는 번호를 받아옴
+  - EditText에서 받아온 값이 변경될 때마다 사용할 수 있게 TextWatcher사용함
+  - Filter를 사용해서 이름을 검색할 때와 번호를 검색하는 경우를 나눠 EditText에서 받아온 내용이 포함된 새로운 리스트를 생성해서 보여줌
+
 ## Tab2 : 사진 앨범 
 > 사진 앨범 Tab은 Android 기기의 local storage에 존재하는 모든 사진파일을 보여주며, 촬영기능을 통해 새로운 사진을 local storage에 추가할 수 있는 화면입니다. 
 - ### 갤러리 페이지
@@ -40,7 +47,7 @@
   - 사진을 눌렀을 때 사진의 uri 주소를 bundle 형태로 새로운 fragment로 전달함
   - 상세 사진 페이지에서 사진을 다시 한 번 누르면 갤러리 페이지로 돌아갈 수 있음 
 - ### 촬영 페이지
-  <img src = "https://user-images.githubusercontent.com/68638211/124426654-4f04f780-dda5-11eb-90e1-0b45466ff8db.jpg" width="200" height="400"><img src = "https://user-images.githubusercontent.com/68638211/124426657-50cebb00-dda5-11eb-98fa-5112a9d914ad.jpg" width="200" height="400"><img src = "https://user-images.githubusercontent.com/68638211/124426639-49a7ad00-dda5-11eb-8ef8-c52d83ddf4d7.jpg" width="200" height="400">
+  <img src = "https://user-images.githubusercontent.com/68638211/124426654-4f04f780-dda5-11eb-90e1-0b45466ff8db.jpg" width="200" height="400"> <img src = "https://user-images.githubusercontent.com/68638211/124426657-50cebb00-dda5-11eb-98fa-5112a9d914ad.jpg" width="200" height="400"> <img src = "https://user-images.githubusercontent.com/68638211/124426639-49a7ad00-dda5-11eb-8ef8-c52d83ddf4d7.jpg" width="200" height="400">
   - 갤러리 페이지에서 우측 상단 카메라 아이콘을 누르면 촬영 페이지로 이동할 수 있음
   - Android Camera를 사용하여 앱에서 Android 디바이스의 카메라에 접근하여 사용함
   - SurfaceView 객체를 사용하여 카메라 preview화면을 간접적으로 보여줌
