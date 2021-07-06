@@ -9,11 +9,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -24,6 +29,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,11 +55,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
-public class ContactFrag extends Fragment {
+public class ContactFrag<editText> extends Fragment{
     RecyclerView recyclerView;
     List<Contacts> contactsList = new ArrayList<>();
+    List<Contacts> filteredList;
     ContactsAdapter adapter;
+    EditText editText;
+    Spinner spinner;
+    String searchOption;
     ContactsAdapter.ContactsViewHolder cvh;
     private View view;
 
@@ -75,11 +86,14 @@ public class ContactFrag extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycle1);
         adapter = new ContactsAdapter(getActivity(), contactsList);
+        editText = (EditText) rootView.findViewById(R.id.edittext);
+        spinner = (Spinner) rootView.findViewById(R.id.spinner);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         Log.e("Frag", "MainFragment");
 
+        //permission
         Dexter.withActivity(getActivity())
                 .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .withListener(new MultiplePermissionsListener(){
@@ -95,7 +109,51 @@ public class ContactFrag extends Fragment {
 
                     }
                 }).check();
+
+        //menu button
         setHasOptionsMenu(true);
+
+
+        searchOption = "name";
+        // spinner option for search setting
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                searchOption = parent.getItemAtPosition(position).toString();
+                Log.i("searchOption", searchOption);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //search bar editText
+        TextWatcher textwatcher = new TextWatcher(){
+            @Override //before changed
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){
+            }
+            @Override //during text change
+            public void onTextChanged(CharSequence s, int start, int before, int count){
+                String text = editText.getText().toString().toLowerCase(Locale.getDefault());
+                if( searchOption.equals( "name" ) ){
+                    text = "0".concat(text);
+                }
+                else{
+                    text = "1".concat(text);
+                }
+                adapter.getFilter().filter(text);
+                Log.i("onTextChanged", text);
+            }
+            @Override
+            public void afterTextChanged(Editable s){
+            }
+        };
+        editText.addTextChangedListener(textwatcher);
+
+
+
         return rootView;
     }
 

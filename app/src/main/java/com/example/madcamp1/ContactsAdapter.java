@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Filterable;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,17 +23,70 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> implements Filterable {
     Context mContext;
     List<Contacts> contactsList;
+    List<Contacts> filteredList;
 
-    public ContactsAdapter(Context mContext, List<Contacts> contactsList) {
+
+    //filteredList for search function
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String originalString = constraint.toString();
+                String searchOption = originalString.substring(0, 1);
+                String charString = originalString.substring(1);
+                Log.i("searchOption", searchOption);
+                if(charString.isEmpty()) {
+                    filteredList = contactsList;
+                } else {
+                    ArrayList<Contacts> filteringList = new ArrayList<Contacts>();
+                    if(searchOption.equals("0")){
+                        for(Contacts c : contactsList) {
+                            if(c.getName().toLowerCase().contains(charString.toLowerCase())) {
+                                filteringList.add(c);
+                            }
+                        }
+                    }
+                    else{
+                        for(Contacts c : contactsList) {
+                            if(c.getPhone_num().replaceAll("-","").contains(charString)) {
+                                filteringList.add(c);
+                            }
+                        }
+                    }
+                    filteredList = filteringList;
+                }
+                FilterResults filterResults = new FilterResults();
+                Collections.sort(filteredList);
+                filterResults.values = filteredList;
+                Log.i("filteredList", filteredList.toString());
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredList = (List<Contacts>)results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
+    public ContactsAdapter(Context mContext, List<Contacts> list) {
         this.mContext = mContext;
-        this.contactsList = contactsList;
+        this.contactsList = list;
+        this.filteredList = list;
+        notifyItemChanged(0, filteredList.size());
     }
 
     @NonNull
@@ -42,7 +97,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, int position) {
-        Contacts contacts = contactsList.get(position);
+        Contacts contacts = filteredList.get(position);
         holder.name_contact.setText(contacts.getName());
         holder.phone_contact.setText(contacts.getPhone_num());
 
@@ -54,7 +109,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     }
 
     public int getItemCount(){
-        return contactsList.size();
+        return filteredList.size();
     }
 
     public class ContactsViewHolder extends RecyclerView.ViewHolder{
